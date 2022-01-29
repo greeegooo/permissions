@@ -36,7 +36,7 @@ async function bootstrap() {
     const config = new DocumentBuilder()
       .setTitle(`${project.name}`)
       .setVersion(`${project.version}`)
-      .setDescription(`Swagger - ${project.description}`)
+      .setDescription(`${project.description}`)
       .setExternalDoc('Documentation', project.homepage)
       .build();
     const document = SwaggerModule.createDocument(app, config);

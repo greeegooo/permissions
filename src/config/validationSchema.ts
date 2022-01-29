@@ -11,7 +11,5 @@ export const validationSchema = Joi.object({
   CORS_CREDENTIALS: Joi.boolean().required(),
   SWAGGER_PATH: Joi.string().required(),
   SWAGGER_ENABLED: Joi.boolean().required(),
-  TEST_KEY: Joi.string().required(),
-  RICK_AND_MORTY_API_URL: Joi.string().required(),
-  NEST_JS_DOCS_URL: Joi.string().required(),
+  TEST_KEY: Joi.string().required()
 });

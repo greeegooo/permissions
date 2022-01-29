@@ -29,5 +29,15 @@ export default registerAs('config', () => {
       nestJsDocs: process.env.NEST_JS_DOCS_URL,
       rickAndMortyAPI: process.env.RICK_AND_MORTY_API_URL,
     },
+    database: {
+      mongo: {
+        connection: process.env.MONGO_CONNECTION || 'mongodb',
+        user: encodeURIComponent(process.env.MONGO_USER),
+        password: encodeURIComponent(process.env.MONGO_PASSWORD),
+        host: process.env.MONGO_HOST,
+        port: parseInt(process.env.MONGO_PORT, 10),
+        dbName: process.env.MONGO_DB_NAME,
+      },
+    },
   };
 });
