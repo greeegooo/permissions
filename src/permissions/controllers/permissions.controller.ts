@@ -8,8 +8,6 @@ import { PermissionsService } from "../services/permissions.service";
 @Controller('permissions')
 export class PermissionsController {
 
-    private permissions: PutPermissionsDto[] = [];
-
     constructor(private readonly permissionsService: PermissionsService){}
 
     @ApiOperation({
@@ -17,7 +15,7 @@ export class PermissionsController {
     })
     @Get()
     getAll() {
-        return this.permissions;
+        return this.permissionsService.get();
     }
 
     @ApiOperation({
@@ -34,6 +32,6 @@ export class PermissionsController {
     @Put()
     put(@Body() request: PutPermissionsDto) {
         console.log(JSON.stringify(request));
-        this.permissions.push(request);
+        this.permissionsService.put(request);
     }
 }
