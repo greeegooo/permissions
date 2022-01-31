@@ -55,59 +55,49 @@ export class PermissionsService {
         console.log("Recorriendo campos");
         request.fields.forEach(f => {
 
-            console.log("Campo: " + JSON.stringify(f));
-            
             let propertyNames = f.property.split('.');
-
-            console.log("Campo: " + JSON.stringify(f) + " Prop names: " + propertyNames)
 
             if(propertyNames.length > 1) {
 
-                console.log("Campo: " + JSON.stringify(f) + "Muchos prop names");
-                let currentNode = new Node();
-
+                let currentNode = null;
+                let currentChildren = mainNode.children;
                 propertyNames.forEach(propName => {
 
-                    console.log("Campo: " + JSON.stringify(f) + "Muchos prop names: " + propName);
+                    let auxNode = currentChildren.find(n => n.value === propName);
 
-                    let auxNode = mainNode.children.find(n => n.value === propName);
-
-                    if(auxNode) { 
-                        console.log("Campo: " + JSON.stringify(f) + "Muchos prop names: " + propName + "ya existe");
-                        currentNode = auxNode; 
-                        console.log("Current node: " + JSON.stringify(currentNode));
-                    }
-                    else {
-                        console.log("Campo: " + JSON.stringify(f) + "Muchos prop names: " + propName + "no existe");
+                    if(!auxNode) { 
                         auxNode = new Node();
                         auxNode.value = propName;
-                        console.log("Current node: " + JSON.stringify(currentNode));
                         if(currentNode) {
-                            console.log("Node: " + JSON.stringify(auxNode));
                             currentNode.children.push(auxNode);
-                            console.log("Current node: " + JSON.stringify(currentNode));
                         }
-                        
-                        currentNode = auxNode;
-                        console.log("Current node: " + JSON.stringify(currentNode));
+                        else {
+                           mainNode.children.push(auxNode); 
+                        }
                     }
-                });
-                console.log("NO HAY MAS PROPNAMES");
-                currentNode.addChildren(f.access_key.split(','));
 
-                console.log("Campo: " + JSON.stringify(f) + " Agregando nuevo nodo a main: " + JSON.stringify(currentNode));
-                // mainNode.children.push(currentNode);
+                    currentNode = auxNode;
+                    currentChildren = currentNode.children; 
+                });
+                
+                currentNode.addChildren(f.access_key.split(','));
             }
             else {
-                let node = new Node();
-                console.log("Campo: " + JSON.stringify(f) + "Un solo prop name");
-                node.value = propertyNames[0];
-                node.addChildren(f.access_key.split(','));
-                console.log("Campo: " + JSON.stringify(f) + " Agregando nuevo nodo a main: " + node);
-                mainNode.children.push(node);
+
+                let propName = propertyNames[0];
+                let currentNode = mainNode.children.find(n => n.value === propName);
+                if(currentNode) {
+                    currentNode.addChildren(f.access_key.split(','));
+                }
+                else {
+                    let node = new Node();
+                    node.value = propertyNames[0];
+                    node.addChildren(f.access_key.split(','));
+                    mainNode.children.push(node);
+                }
             }
         });
-        console.log("FIN Recorriendo campos");
+
         this.nodes.push(mainNode);
     }
 
