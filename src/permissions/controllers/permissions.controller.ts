@@ -15,7 +15,7 @@ export class PermissionsController {
     })
     @Get()
     getAll() {
-        return this.permissionsService.get();
+        return this.permissionsService.getAll();
     }
 
     @ApiOperation({
@@ -23,7 +23,7 @@ export class PermissionsController {
     })
     @Get(':initiative')
     get(@Param('initiative') initiative: string) {
-        throw new Error("Not implemented");
+        return this.permissionsService.get(initiative);
     }
 
     @ApiOperation({
