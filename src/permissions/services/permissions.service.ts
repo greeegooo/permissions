@@ -21,20 +21,26 @@ export class PermissionsService {
 
   async put(request: PutPermissionsDto) {
     
-    const baseNode = await this.connection.collection('models').findOne({}, { projection: {'_id':0}});
+    const currentPermissions = await this.getCurrentPermissionsForInitiative(request.initiative);
     
     request.fields.forEach((field) => {
       field.access_key.split(',')
         .map(key => key ? `${field.property}.${key}` : field.property)
-        .forEach(prop => this.updatePropInNode(prop, baseNode));
+        .forEach(prop => this.updatePropInNode(prop, currentPermissions));
     });
 
     const permission = {
       initiative: request.initiative,
-      fields: baseNode,
+      fields: currentPermissions,
     };
 
+    //TODO: Ver de actualizar o agregar
     this.connection.collection('permissions').insertOne(permission);
+  }
+
+  private async getCurrentPermissionsForInitiative(initiative: string): Promise<any> {
+    //TODO: Aca buscar si ya existe
+    return await this.connection.collection('models').findOne({}, { projection: {'_id':0}});
   }
 
   private updatePropInNode(prop: string, node: any) {
