@@ -21,7 +21,8 @@ import { PermissionsModule } from './permissions/permissions.module';
     }),
     HealthModule.register(config()),
     HttpClientModule,
-    PermissionsModule
+    PermissionsModule,
+    MongoModule
   ],
   controllers: [AppController],
   providers: [AppService],
