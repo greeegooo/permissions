@@ -9,7 +9,7 @@ export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
   @ApiOperation({
-    summary: 'Get all initiatives and permissions',
+    summary: 'Get all initiatives',
   })
   @Get()
   getAll() {
@@ -17,7 +17,7 @@ export class PermissionsController {
   }
 
   @ApiOperation({
-    summary: 'Get all initiatives and permissions',
+    summary: 'Get an initiative',
   })
   @Get(':initiative')
   get(@Param('initiative') initiative: string) {
@@ -29,7 +29,6 @@ export class PermissionsController {
   })
   @Put()
   put(@Body() request: PutPermissionsDto) {
-    console.log(JSON.stringify(request));
     this.permissionsService.put(request);
   }
 }
