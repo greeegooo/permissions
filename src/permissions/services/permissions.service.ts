@@ -12,11 +12,11 @@ export class PermissionsService {
   }
 
   async get(initiative: string) {
-    return await this.permissions.findOne({ initiative });
+    return await this.permissions.findOne({ initiative }, { projection: {'_id':0}});
   }
 
   async getAll() {
-    return await this.permissions.find({}).toArray();
+    return await this.permissions.find({}, { projection: {'_id':0}}).toArray();
   }
 
   async put(request: PutPermissionsDto) {
@@ -26,7 +26,7 @@ export class PermissionsService {
       accessKeys.forEach((key) => fields.push(`${field.property}.${key}`));
     });
 
-    const baseModel = (await this.connection.collection('models').find().toArray())[0];
+    const baseModel = await this.connection.collection('models').findOne({}, { projection: {'_id':0}});
     this.setPropsToTrue(baseModel, fields);
 
     const initiative = {
