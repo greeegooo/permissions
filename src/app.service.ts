@@ -4,9 +4,7 @@ import { config } from './config';
 
 @Injectable()
 export class AppService {
-  constructor(
-    @Inject(config.KEY) private appConfig: ConfigType<typeof config>
-  ) {}
+  constructor(@Inject(config.KEY) private appConfig: ConfigType<typeof config>) {}
 
   getHello(): string {
     return 'Hello World!';

@@ -11,5 +11,5 @@ export const validationSchema = Joi.object({
   CORS_CREDENTIALS: Joi.boolean().required(),
   SWAGGER_PATH: Joi.string().required(),
   SWAGGER_ENABLED: Joi.boolean().required(),
-  TEST_KEY: Joi.string().required()
+  TEST_KEY: Joi.string().required(),
 });
