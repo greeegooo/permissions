@@ -25,13 +25,16 @@ export class PermissionsController {
   }
 
   @ApiOperation({
-    summary: 'Creates or updates permissions for a given initiative',
+    summary: 'Creates or updates permissions for a given initiative. Allow',
   })
   @Put()
   put(@Body() request: PutPermissionsDto) {
     this.permissionsService.allow(request);
   }
 
+  @ApiOperation({
+    summary: 'Creates or updates permissions for a given initiative. Deny',
+  })
   @Put('/deny')
   deny(
     @Body() request: PutPermissionsDto) {
