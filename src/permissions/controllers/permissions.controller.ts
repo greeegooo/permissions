@@ -29,6 +29,12 @@ export class PermissionsController {
   })
   @Put()
   put(@Body() request: PutPermissionsDto) {
-    this.permissionsService.put(request);
+    this.permissionsService.allow(request);
+  }
+
+  @Put('/deny')
+  deny(
+    @Body() request: PutPermissionsDto) {
+      this.permissionsService.deny(request);
   }
 }

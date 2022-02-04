@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Collection, Connection, ObjectId } from 'mongoose';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
-import { PutPermissionsFieldDto } from '../dtos/put.permission.field.dto';
+import { allow, deny } from './field.allowance.setters';
 
 @Injectable()
 export class PermissionsService {
@@ -22,12 +22,17 @@ export class PermissionsService {
     return await this.permissions.find({}, { projection: {'_id':0}}).toArray();
   }
 
-  async put(request: PutPermissionsDto) {
-    
-    const permission = await this.getCurrentPermissionsForInitiative(request.initiative);
-    
-    this.updatePermissionFields(request.fields, permission.fields);
+  async allow(request: PutPermissionsDto) {
+    this.update(request, allow);
+  }
 
+  async deny(request: PutPermissionsDto) {
+    this.update(request, deny);
+  }
+
+  private async update(request: PutPermissionsDto, operation: any) {
+    let permission = await this.getCurrentPermissionsForInitiative(request.initiative);
+    operation(request.fields, permission.fields);
     this.addOrUpdatePermission(permission);
   }
 
@@ -36,25 +41,6 @@ export class PermissionsService {
     if(!permission) permission = await this.models.findOne({}, { projection: {'_id':0}});
     permission.initiative = initiative;
     return permission;
-  }
-
-  private updatePermissionFields(requestFields: PutPermissionsFieldDto[], currentFields: any) {
-    requestFields.forEach((field) => {
-      field.access_key.split(',')
-        .map(key => key ? `${field.property}.${key}` : field.property)
-        .forEach(prop => this.addOrUpdatePropInNode(prop, currentFields));
-    });
-  }
-  
-  private addOrUpdatePropInNode(prop: string, node: any) {
-    const [head, ...tail] = prop.split('.');
-    if(tail.length > 0) {
-        if(!node[head] || node[head] === true) node[head] = {};
-        this.addOrUpdatePropInNode(tail.join('.'), node[head]);
-    }
-    else {
-        node[head] = true;
-    }
   }
 
   private addOrUpdatePermission(permission: any) {
