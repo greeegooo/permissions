@@ -33,38 +33,6 @@ describe('configuration', () => {
     expect(description).toEqual(PACKAGE_JSON.description);
   });
 
-  it('should have a project author', () => {
-    const { author } = appConfig.project;
-
-    expect(author).toBeDefined();
-    expect(author).toEqual(expect.any(Object));
-    expect(author).toEqual(PACKAGE_JSON.author);
-  });
-
-  it('should have a project repository', () => {
-    const { repository } = appConfig.project;
-
-    expect(repository).toBeDefined();
-    expect(repository).toEqual(expect.any(Object));
-    expect(repository).toEqual(PACKAGE_JSON.repository);
-  });
-
-  it('should have a project bugs', () => {
-    const { bugs } = appConfig.project;
-
-    expect(bugs).toBeDefined();
-    expect(bugs).toEqual(expect.any(Object));
-    expect(bugs).toEqual(PACKAGE_JSON.bugs);
-  });
-
-  it('should have a project homepage', () => {
-    const { homepage } = appConfig.project;
-
-    expect(homepage).toBeDefined();
-    expect(homepage).toEqual(expect.any(String));
-    expect(homepage).toEqual(PACKAGE_JSON.homepage);
-  });
-
   it('should have isProd false', () => {
     const { isProd } = appConfig.server;
 
