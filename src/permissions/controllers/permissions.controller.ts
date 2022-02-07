@@ -24,6 +24,7 @@ export class PermissionsController {
     return this.permissionsService.get(initiative);
   }
 
+  //TODO: Agregar validation pipes
   @ApiOperation({
     summary: 'Creates or allows field permissions for a given initiative.',
   })

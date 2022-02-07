@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Collection, Connection } from 'mongoose';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
@@ -15,7 +15,9 @@ export class PermissionsService {
   }
 
   async get(initiative: string) {
-    return await this.permissions.findOne({ initiative }, { projection: {'_id':0}});
+    const permissions = await this.permissions.findOne({ initiative }, { projection: {'_id':0}});
+    if(!permissions) throw new NotFoundException(`No se encontró la inicitativa: ${initiative}`);
+    return permissions;
   }
 
   async getAll() {
