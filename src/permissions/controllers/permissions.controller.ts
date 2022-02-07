@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
 import { PermissionsService } from '../services/permissions.service';
@@ -25,19 +25,19 @@ export class PermissionsController {
   }
 
   @ApiOperation({
-    summary: 'Creates or updates permissions for a given initiative. Allow',
+    summary: 'Creates or allows field permissions for a given initiative.',
   })
   @Put()
   put(@Body() request: PutPermissionsDto) {
-    this.permissionsService.allow(request);
+    this.permissionsService.update(request);
   }
 
   @ApiOperation({
-    summary: 'Creates or updates permissions for a given initiative. Deny',
+    summary: 'Execute specific operation on fields for a given initiative.',
   })
-  @Put('/deny')
-  deny(
+  @Patch()
+  patch(
     @Body() request: PutPermissionsDto) {
-      this.permissionsService.deny(request);
+      this.permissionsService.update(request);
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
-import { Collection, Connection, ObjectId } from 'mongoose';
+import { Collection, Connection } from 'mongoose';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
-import { allow, deny } from './field.allowance.setters';
+import { updatePermissionFields } from './field.allowance.setters';
 
 @Injectable()
 export class PermissionsService {
@@ -22,17 +22,9 @@ export class PermissionsService {
     return await this.permissions.find({}, { projection: {'_id':0}}).toArray();
   }
 
-  async allow(request: PutPermissionsDto) {
-    this.update(request, allow);
-  }
-
-  async deny(request: PutPermissionsDto) {
-    this.update(request, deny);
-  }
-
-  private async update(request: PutPermissionsDto, operation: any) {
+  async update(request: PutPermissionsDto) {
     let permission = await this.getCurrentPermissionsForInitiative(request.initiative);
-    operation(request.fields, permission.fields);
+    updatePermissionFields(request.fields, permission.fields);
     this.addOrUpdatePermission(permission);
   }
 
