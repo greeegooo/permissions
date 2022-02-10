@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Put, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
 import { PermissionsService } from '../services/permissions.service';
@@ -24,7 +24,6 @@ export class PermissionsController {
     return this.permissionsService.get(initiative);
   }
 
-  //TODO: Agregar validation pipes
   @ApiOperation({
     summary: 'Creates or allows field permissions for a given initiative.',
   })

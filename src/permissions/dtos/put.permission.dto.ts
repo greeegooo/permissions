@@ -1,11 +1,12 @@
 import { Type } from '@nestjs/class-transformer';
-import { IsString, ValidateNested } from '@nestjs/class-validator';
+import { ArrayMinSize, IsNotEmpty, IsString, ValidateNested } from '@nestjs/class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PutPermissionsFieldDto } from './put.permission.field.dto';
 
 export class PutPermissionsDto {
 
   @IsString()
+  @IsNotEmpty()
   @ApiProperty({
     example: 'risk',
     description: 'The name of the initiative',
@@ -14,6 +15,7 @@ export class PutPermissionsDto {
 
   @Type(() => PutPermissionsFieldDto)
   @ValidateNested({ each: true })
+  @ArrayMinSize(1)
   @ApiProperty({
     description: 'The property and fields you need to give access',
     type: [PutPermissionsFieldDto],
