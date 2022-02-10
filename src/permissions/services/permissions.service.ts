@@ -16,7 +16,7 @@ export class PermissionsService {
 
   async get(initiative: string) {
     const permissions = await this.permissions.findOne({ initiative }, { projection: {'_id':0}});
-    if(!permissions) throw new NotFoundException(`No se encontró la inicitativa: ${initiative}`);
+    if(!permissions) throw new NotFoundException(`Initiative: ${initiative} not found.`);
     return permissions;
   }
 
