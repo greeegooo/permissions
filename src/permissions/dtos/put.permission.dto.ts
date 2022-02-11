@@ -4,7 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PutPermissionsFieldDto } from './put.permission.field.dto';
 
 export class PutPermissionsDto {
-
   @IsString()
   @IsNotEmpty()
   @ApiProperty({

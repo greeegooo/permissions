@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Put, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
 import { PermissionsService } from '../services/permissions.service';
@@ -36,8 +36,7 @@ export class PermissionsController {
     summary: 'Execute specific operation on fields for a given initiative.',
   })
   @Patch()
-  patch(
-    @Body() request: PutPermissionsDto) {
-      this.permissionsService.update(request);
+  patch(@Body() request: PutPermissionsDto) {
+    this.permissionsService.update(request);
   }
 }
