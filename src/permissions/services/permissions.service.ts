@@ -45,7 +45,7 @@ export class PermissionsService {
 
     this.logger.log(`UPDATE. Finished. Initiative: ${request.initiative}.`);
 
-    return this.get(request.initiative);
+    return permission;
   }
 
   private async getPermissionFor(initiative: string): Promise<any> {
