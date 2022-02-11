@@ -24,7 +24,7 @@ export class PutPermissionsFieldDto {
 
   @IsString()
   @Matches(
-    new RegExp('^[a-z][a-z_,]'), 
+    new RegExp('^$|^[a-z][a-z_,]'), 
     { message: "access_key does not follow one of these rules: Characters allowed: lower letters, underscore and commas. Must start with a letter. Property fields must be separated by a comma. Field name can be separated with underscores."}
   )
   @ApiProperty({
