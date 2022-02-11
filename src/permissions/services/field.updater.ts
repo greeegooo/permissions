@@ -9,6 +9,7 @@ const removeOp = (node: any, head: string): void => { delete node[head]; }
 
 const operations = new Map<OperationType, OperationFunc>(
   [
+    [, allowOp], //default
     [OperationType.ALLOW, allowOp],
     [OperationType.DENY, denyOp],
     [OperationType.REMOVE, removeOp]
@@ -34,5 +35,7 @@ const updatePermissionFields = (requestFields: PutPermissionsFieldDto[], current
     });
 }
 
-export default updatePermissionFields;
+const FieldUpdater = { update: updatePermissionFields };
+
+export default FieldUpdater;
 

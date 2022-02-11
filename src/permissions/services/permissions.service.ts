@@ -2,16 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Collection, Connection } from 'mongoose';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
-import updatePermissionFields from './field.allowance.setters';
+import FieldUpdater from './field.updater';
 
 @Injectable()
 export class PermissionsService {
   private readonly permissions: Collection;
-  private readonly models: Collection;
 
   constructor(@InjectConnection() private connection: Connection) {
     this.permissions = this.connection.collection('permissions');
-    this.models = this.connection.collection('models');
   }
 
   async get(initiative: string) {
@@ -25,14 +23,14 @@ export class PermissionsService {
   }
 
   async update(request: PutPermissionsDto) {
-    let permission = await this.getCurrentPermissionsForInitiative(request.initiative);
-    updatePermissionFields(request.fields, permission.fields);
+    let permission = await this.getPermissionFor(request.initiative);
+    FieldUpdater.update(request.fields, permission.fields);
     this.addOrUpdatePermission(permission);
   }
 
-  private async getCurrentPermissionsForInitiative(initiative: string): Promise<any> {
+  private async getPermissionFor(initiative: string): Promise<any> {
     let permission = await this.permissions.findOne({initiative});
-    if(!permission) permission = await this.models.findOne({}, { projection: {'_id':0}});
+    if(!permission) permission = { _id: null, initiative: '', fields: {}};
     permission.initiative = initiative;
     return permission;
   }
