@@ -29,7 +29,7 @@ export class PermissionsController {
   })
   @Put()
   put(@Body() request: PutPermissionsDto) {
-    this.permissionsService.update(request);
+    return this.permissionsService.update(request);
   }
 
   @ApiOperation({
@@ -37,6 +37,6 @@ export class PermissionsController {
   })
   @Patch()
   patch(@Body() request: PutPermissionsDto) {
-    this.permissionsService.update(request);
+    return this.permissionsService.update(request);
   }
 }

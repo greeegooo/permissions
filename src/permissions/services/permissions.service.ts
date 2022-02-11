@@ -16,23 +16,23 @@ export class PermissionsService {
     this.permissions = this.connection.collection('permissions');
   }
 
-  async get(initiative: string) {
-    this.logger.log(`GET. Searching for. Initiative: ${initiative}.`)
+  async get(initiative: string): Promise<any> {
+    this.logger.log(`GET. Searching for. Initiative: ${initiative}.`);
     const permissions = await this.permissions.findOne({ initiative }, { projection: { _id: 0 } });
     if (!permissions) {
       const message = `GET. NOT FOUND. Initiative: ${initiative}.`;
-      this.logger.log(message)
+      this.logger.log(message);
       throw new NotFoundException(message);
     }
     return permissions;
   }
 
-  async getAll() {
-    this.logger.log(`GET ALL. Searching.`)
+  async getAll(): Promise<any[]> {
+    this.logger.log(`GET ALL. Searching.`);
     return await this.permissions.find({}, { projection: { _id: 0 } }).toArray();
   }
 
-  async update(request: PutPermissionsDto) {
+  async update(request: PutPermissionsDto): Promise<any> {
     this.logger.log(`UPDATE. Starting. Initiative: ${request.initiative}.`);
 
     const permission = await this.getPermissionFor(request.initiative);
@@ -44,18 +44,24 @@ export class PermissionsService {
     this.addOrUpdatePermission(permission);
 
     this.logger.log(`UPDATE. Finished. Initiative: ${request.initiative}.`);
+
+    return this.get(request.initiative);
   }
 
-  private async getPermissionFor(initiative: string): Promise<any> {
+  async getPermissionFor(initiative: string): Promise<any> {
     this.logger.log(`UPDATE. Looking permission for. Initiative: ${initiative}.`);
     let permission = await this.permissions.findOne({ initiative });
     if (!permission) permission = { _id: null, initiative: '', fields: {} };
     permission.initiative = initiative;
-    this.logger.log(`UPDATE. Current permission for. Initiative: ${initiative}. Data: ${JSON.stringify(permission)}`);
+    this.logger.log(
+      `UPDATE. Current permission for. Initiative: ${initiative}. Data: ${JSON.stringify(
+        permission,
+      )}`,
+    );
     return permission;
   }
 
-  private addOrUpdatePermission(permission: any) {
+  addOrUpdatePermission(permission: any) {
     this.logger.log(`UPDATE. Starting update db. Initiative: ${permission.initiative}.`);
     if (permission._id) {
       this.logger.log(`UPDATE. Updating db entity. Initiative: ${permission.initiative}.`);
