@@ -41,9 +41,7 @@ export class PermissionsService {
     this.fieldUpdater.update(request.fields, permission.fields);
     this.logger.log(`UPDATE. Finished update process. Initiative: ${request.initiative}.`);
 
-    this.logger.log(`UPDATE. Starting update db. Initiative: ${request.initiative}.`);
     this.addOrUpdatePermission(permission);
-    this.logger.log(`UPDATE. Finished update db. Initiative: ${request.initiative}.`);
 
     this.logger.log(`UPDATE. Finished. Initiative: ${request.initiative}.`);
   }
@@ -58,6 +56,7 @@ export class PermissionsService {
   }
 
   private addOrUpdatePermission(permission: any) {
+    this.logger.log(`UPDATE. Starting update db. Initiative: ${permission.initiative}.`);
     if (permission._id) {
       this.logger.log(`UPDATE. Updating db entity. Initiative: ${permission.initiative}.`);
       this.permissions.updateOne({ _id: permission._id }, { $set: permission });
@@ -65,5 +64,6 @@ export class PermissionsService {
       this.logger.log(`UPDATE. Inserting db entity. Initiative: ${permission.initiative}.`);
       this.permissions.insertOne(permission);
     }
+    this.logger.log(`UPDATE. Finished update db. Initiative: ${permission.initiative}.`);
   }
 }
