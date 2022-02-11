@@ -26,11 +26,13 @@ const executeOperationInNode = (prop: string, node: any, operation: OperationFun
     }
 }
 
-export const updatePermissionFields = (requestFields: PutPermissionsFieldDto[], currentFields: any) => {
+const updatePermissionFields = (requestFields: PutPermissionsFieldDto[], currentFields: any) => {
     requestFields.forEach((field) => {
       field.access_key.split(',')
         .map(key => key ? `${field.property}.${key}` : field.property)
         .forEach(prop => executeOperationInNode(prop, currentFields, operations.get(field.operation)));
     });
 }
+
+export default updatePermissionFields;
 

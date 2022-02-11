@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Collection, Connection } from 'mongoose';
 import { PutPermissionsDto } from '../dtos/put.permission.dto';
-import { updatePermissionFields } from './field.allowance.setters';
+import updatePermissionFields from './field.allowance.setters';
 
 @Injectable()
 export class PermissionsService {
