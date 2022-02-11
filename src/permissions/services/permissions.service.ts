@@ -48,7 +48,7 @@ export class PermissionsService {
     return this.get(request.initiative);
   }
 
-  async getPermissionFor(initiative: string): Promise<any> {
+  private async getPermissionFor(initiative: string): Promise<any> {
     this.logger.log(`UPDATE. Looking permission for. Initiative: ${initiative}.`);
     let permission = await this.permissions.findOne({ initiative });
     if (!permission) permission = { _id: null, initiative: '', fields: {} };
@@ -61,7 +61,7 @@ export class PermissionsService {
     return permission;
   }
 
-  addOrUpdatePermission(permission: any) {
+  private addOrUpdatePermission(permission: any) {
     this.logger.log(`UPDATE. Starting update db. Initiative: ${permission.initiative}.`);
     if (permission._id) {
       this.logger.log(`UPDATE. Updating db entity. Initiative: ${permission.initiative}.`);

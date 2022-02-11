@@ -7,8 +7,8 @@ export const removeRequest: PutPermissionsDto = {
   fields: [
     {
       operation: OperationType.REMOVE,
-      property: 'comercial_info.name',
-      access_key: 'company_name',
+      property: 'comercial_info',
+      access_key: '',
     } as PutPermissionsFieldDto,
   ],
 };
