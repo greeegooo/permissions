@@ -33,7 +33,7 @@ export class PermissionsService {
   }
 
   async update(request: PutPermissionsDto) {
-    this.logger.log(`UPDATE. Starting. Initiative: ${request.initiative}.`);
+    this.logger.log(JSON.stringify(`UPDATE. Starting. Initiative: ${request.initiative}.`));
 
     const permission = await this.getPermissionFor(request.initiative);
 
